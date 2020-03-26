@@ -14,11 +14,11 @@ class MyJSONEncoder(flask.json.JSONEncoder):
 app = Flask(__name__)
 app.json_encoder = MyJSONEncoder
 
-from routes.index import *
+from routes.route import *
 
 
 if __name__=="__main__":
     app.debug = False
-    host = os.environ.get('IP','0.0.0.0')
-    port = int(os.environ.get('PORT',8000))
+    host = os.environ.get('IP','127.0.0.1')
+    port = int(os.environ.get('PORT',5000))
     app.run(host = host, port=port)
