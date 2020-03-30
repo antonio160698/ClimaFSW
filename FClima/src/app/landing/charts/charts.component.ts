@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
+import { TemperatureService } from '../../service/temperature.service';
 
 @Component({
   selector: 'app-charts',
@@ -8,48 +9,79 @@ import { Chart } from 'chart.js';
 })
 export class ChartsComponent implements OnInit {
 
-  constructor() { }
+  constructor( protected tempServer: TemperatureService) { }
 
   public chart: any = null;
+  public temperature: any[] = [];
+  public humedad: any[] = [];
   ngOnInit(): void {
+    this.tempServer.login()
+    .subscribe(
+      (data) => { // Success
+        for(let i of data){
+          this.temperature.push(i.Temperatura);
+          this.humedad.push(i.Humedad);
+        }
+        console.log(this.temperature);
+        console.log(this.humedad);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
     this.chart = new Chart('realtime', {
       type: 'line',
       data: {
-       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-       datasets: [
-         {
-          label: 'My First dataset',
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
-          data: [0, 10, 5, 2, 20, 30, 45]
-         }
-       ]
-        },
-        options: {
-       tooltips: {
-        enabled: false
-       },
-       legend: {
-        display: true,
-        position: 'bottom',
-        labels: {
-         fontColor: 'white'
-        }
-       },
-       scales: {
-         yAxes: [{
-          ticks: {
-           fontColor: "white"
-          }
-         }],
-         xAxes: [{
-        ticks: {
-         fontColor: "white",
-         beginAtZero: true
-        }
-         }]
-       }
-        }
+        labels: ['1','2','3','4','5','6','7','8','9','10'],
+        datasets:[{
+          label: 'Temperatura',
+          borderColor: 'rgb(0,0,255)',
+          backgroundColor: 'rgb(0,0,255)',
+          fill: false,
+          data: this.temperature,
+          yAxisID: 'y-axis-1',
+        }, {
+          label: 'Humedad',
+          borderColor: 'rgb(255,0,255)',
+          backgroundColor: 'rgb(255,0,255)',
+          fill: false,
+          data: this.humedad,
+          yAxisID: 'y-axis-2'
+      }
+    ]},
+      options:{
+					title: {
+						display: true,
+						text: 'Chart.js Line Chart - Multi Axis'
+					},
+					scales: {
+						yAxes: [{
+              ticks:{
+                max:50,
+                min:0,
+              },
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: true,
+							position: 'right',
+							id: 'y-axis-1',
+						}, {
+              ticks:{
+                max:1500,
+                min:1000,
+              },
+							type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+							display: true,
+							position: 'left',
+							id: 'y-axis-2',
+
+							// grid line settings
+							gridLines: {
+								drawOnChartArea: false, // only want the grid lines for one axis to show up
+							},
+						}],
+					}
+      }
+      
      });
   }
 

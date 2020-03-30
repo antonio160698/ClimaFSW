@@ -1,4 +1,5 @@
 from flask import Flask, escape, request
+from flask_cors import CORS
 import decimal
 import flask.json
 import os
@@ -12,6 +13,7 @@ class MyJSONEncoder(flask.json.JSONEncoder):
         return super(MyJSONEncoder, self).default(obj)
 
 app = Flask(__name__)
+CORS(app)
 app.json_encoder = MyJSONEncoder
 
 from routes.route import *
