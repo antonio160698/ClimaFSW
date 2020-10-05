@@ -1,7 +1,7 @@
-from BClima import app 
-from flask import jsonify
+from BClima import app, mydb
+from flask import jsonify, request
 import random
-@app.route('/')
+@app.route('/api')
 def index():
     y = []
     for x in range(10):
