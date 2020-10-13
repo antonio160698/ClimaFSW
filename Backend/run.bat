@@ -1,4 +1,4 @@
 pip install mysql-connector-python
 pip install flask
-pip install cryptography
+pip install bcrypt
 pause
