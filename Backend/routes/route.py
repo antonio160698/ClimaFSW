@@ -10,3 +10,7 @@ def index():
         algo = {'Temperatura':temp, 'Humedad':hum}
         y.append(algo)
     return jsonify(y)
+
+@app.route('/home')
+def home():
+    return render_template('hello.html')
