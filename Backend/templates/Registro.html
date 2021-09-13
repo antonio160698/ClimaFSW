@@ -1,0 +1,32 @@
+{% extends 'layout/base.html'%}
+{% block title %}Registro{% endblock %}
+{% block content %}
+<style>
+    tr th, tr td{
+        text-align: center;
+    }
+</style>
+<div class="container">
+    <table class="table" id="tablaRegistro">
+        <tr><th>Temperatura</th><th>Humedad</th></tr>
+    </table>
+</div>
+<script>
+    window.onload = () => {
+        let listaSensor;
+        $.ajax({
+            url: './api',
+            success: (e) => { console.log(e);listaSensor = e; console.log(listaSensor);resultadoSensores(); }
+        });
+        function resultadoSensores() {
+            let tabla = "";
+            for (let x of listaSensor) {
+                console.log(x);
+                tabla += "<tr><td>" + x.Temperatura + "</td><td>" + x.Humedad + "</td><tr>";
+            }
+            let antestabla = document.getElementById("tablaRegistro").innerHTML;
+            document.getElementById("tablaRegistro").innerHTML = antestabla + tabla;
+        }
+    }
+</script>
+{% endblock%}

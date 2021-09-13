@@ -1,5 +1,5 @@
-from BClima import app, mydb
-from flask import jsonify, request
+from BClima import app
+from flask import jsonify, request, render_template
 import random
 @app.route('/api')
 def index():
@@ -11,6 +11,10 @@ def index():
         y.append(algo)
     return jsonify(y)
 
-@app.route('/home')
+@app.route('/')
 def home():
-    return render_template('hello.html')
+    return render_template('Principal.html')
+
+@app.route('/Registros')
+def registro():
+    return render_template('Registro.html')

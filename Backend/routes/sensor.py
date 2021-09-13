@@ -6,8 +6,10 @@ import mysql.connector
 
 @app.route('/getsensor')
 def getsensores():
-    sen = dth22sensor(4)
-    temp, hum = sen.readDHT22()
+    #sen = dth22sensor(4)
+    #temp, hum = sen.readDHT22()
+    temp = random.randint(0, 40)
+    hum = random.randint(1050, 1150)
     return jsonify({'temperatura':temp, 'humedad':hum})
 
 @app.route('/postsensores', methods=["POST"])
