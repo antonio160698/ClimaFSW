@@ -1,9 +1,18 @@
 {% extends 'layout/base.html'%}
 {% block title %}Registro{% endblock %}
 {% block content %}
-<h1>Hola desde bloque</h1>
 <div class="row" style="margin-top: 10%;margin-left: 40%;margin-right: 40%; text-align: center;">
-    <div class="col-6">Temperatura</div>
-    <div class="col-6">Humedad</div>
+    <div class="col-6" style="text-align: center;"><p>Temperatura</p><p id="Temp"></p></div>
+    <div class="col-6" style="text-align: center;"><p>Humedad</p><p id="Humedad"></p></div>
 </div>
+<script>
+    window.onload = () => {
+        setInterval(() => {
+            $.ajax({
+            url: './api/temphum',
+            success: (e) => { console.log(e);document.getElementById("Temp").innerHTML = e.Temperatura+"C°"; document.getElementById("Humedad").innerHTML = e.Humedad+"%"; }
+        });
+        }, 3000);
+    }
+</script>
 {% endblock%}

@@ -1,0 +1,33 @@
+{% extends 'layout/base.html'%}
+{% block title %}Agregar Sensor{% endblock %}
+{% block content %}
+<style>
+    img{
+        width: 100%;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-7">
+            <div class="form-group row">
+                <label for="Nombre" class="col-sm-3 col-form-label">Nombre sensor</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="Nombre">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="Sensor" class="col-sm-3 col-form-label">Sensor</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="Sensor">
+                </div>
+              </div>
+              <button class="btn btn-primary">Guardar sensor</button>
+        </div>
+        <div class="col-5">
+            <img class="mapa" src="{{ url_for('static', filename='mapa_gpio.png') }}">
+        </div>
+    </div>
+</div>
+<script>
+</script>
+{% endblock%}
