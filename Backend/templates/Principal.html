@@ -1,18 +1,38 @@
 {% extends 'layout/base.html'%}
 {% block title %}Registro{% endblock %}
 {% block content %}
-<div class="row" style="margin-top: 10%;margin-left: 40%;margin-right: 40%; text-align: center;">
-    <div class="col-6" style="text-align: center;"><p>Temperatura</p><p id="Temp"></p></div>
-    <div class="col-6" style="text-align: center;"><p>Humedad</p><p id="Humedad"></p></div>
+<div style="width: 100%;text-align: -moz-center;">
+<div class="row justify-content-md-center" style="font-size: xx-large;width:40%; text-align: center;">
+    <div class="col-6" style="text-align: center;">
+        <p>Temperatura</p>
+        <p id="Temp"></p>
+    </div>
+    <div class="col-6" style="text-align: center;">
+        <p>Humedad</p>
+        <p id="Humedad"></p>
+    </div>
+</div>
 </div>
 <script>
     window.onload = () => {
+
         setInterval(() => {
-            $.ajax({
-            url: './api/temphum',
-            success: (e) => { console.log(e);document.getElementById("Temp").innerHTML = e.Temperatura+"C°"; document.getElementById("Humedad").innerHTML = e.Humedad+"%"; }
-        });
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = () => {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        let resp = JSON.parse(request.responseText);
+                        document.getElementById("Temp").innerHTML = resp.Temperatura + "C°";
+                        document.getElementById("Humedad").innerHTML = resp.Humedad + "%";
+                    } else {
+                        console.log('An error occurred during your request: ' + request.status + ' ' + request.statusText);
+                    }
+                }
+            }
+            request.open('Get', './api/temphum');
+            request.send();
         }, 3000);
     }
+    let funcion
 </script>
 {% endblock%}

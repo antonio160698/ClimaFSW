@@ -1,43 +1,111 @@
-<html>
-    <head>
-        <title>Ejemplo</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <form>
-            <div class="form-group">
-              <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email">
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password">
-            </div>
-            <div class="form-group">
-              <label for="nombre">Nombre</label>
-              <input type="text" class="form-control" id="nombre">
-            </div>
-          </form>
-          <button onclick="sendregistro()" class="btn btn-primary">Submit</button>
-    </body>
-</html>
-<script>
-  function sendregistro(){
-    let email = document.getElementById('email').value;
-    let pass = document.getElementById('password').value;
-    let name = document.getElementById('nombre').value;
-    var r = new XMLHttpRequest();
-    r.open("POST", "/postRegistro", true);
-    r.onreadystatechange = function () {
-        if (r.readyState != 4 || r.status != 200) return;
-        alert("Success: " + r.responseText);
-    };
-    r.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    r.send("email="+email+"&pass="+pass+"&name="+name);
-  }
-</script>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <title>Clima FSW</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='js/popper.min.js') }}"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+</head>
+<style>
+  @font-face {
+    font-family: 'Smooch';
+    src:url('{{ url_for("static", filename="css/font/Smooch/Smooch-Regular.ttf") }}') format('truetype')
+  }
+
+  .wrapper {
+    margin-top: 80px;
+    margin-bottom: 80px;
+  }
+
+  .form-signin {
+    max-width: 380px;
+    padding: 15px 35px 45px;
+    margin: 0 auto;
+  }
+
+  .form-signin .form-signin-heading {
+    font-family: 'Smooch';
+    font-size: 5rem;
+    background: -webkit-linear-gradient(25deg, #0e5101, #4c933e, #fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #4c933e;
+  }
+
+  .form-signin .checkbox {
+    margin-bottom: 30px;
+  }
+
+  .form-signin .checkbox {
+    font-weight: normal;
+  }
+
+  .form-signin .form-control {
+    position: relative;
+    font-size: 14px;
+    height: auto;
+    margin: 10px;
+    border-radius: 25px;
+  }
+
+  .form-signin .form-control {
+    z-index: 2;
+  }
+
+  .form-signin input[type="text"] {
+    margin-bottom: -1px;
+    border-radius: 10px;
+  }
+
+  .form-signin input[type="password"] {
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+
+  .btn {
+    background: linear-gradient(25deg, #0e5101, #66ac58);
+    background-color: rgba(0, 0, 0, 0);
+    background-size: auto;
+    background-color: #4c933e;
+    -webkit-transition: all 5s linear;
+    -ms-transition: all 5s linear;
+    transition: all .5s linear;
+    background-size: 1px 200px;
+    border-color: transparent !important;
+    border-width: 0;
+  }
+
+  .btn:hover {
+    background-position: 100px;
+    box-shadow: black 2px 2px 4px;
+  }
+</style>
+
+<body>
+  <div class="wrapper">
+    <form class="form-signin">
+      <div style="text-align: center;">
+        <h2 class="form-signin-heading">Ookin</h2>
+        <img style="width: 100px;" src="{{ url_for('static', filename='osos.svg') }}" />
+      </div>
+      <input type="text" class="form-control" name="username" placeholder="Email Address" required="" autofocus="" />
+      <input type="password" class="form-control" name="password" placeholder="Password" required="" />
+      <label class="checkbox">
+        <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
+      </label>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" style="border-radius: 25px;">Login</button>
+    </form>
+  </div>
+</body>
+
+</html>

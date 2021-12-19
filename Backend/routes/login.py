@@ -85,10 +85,10 @@ def putregistr():
             cur.close()
             cnx.close()
     except Exception as e:
-        return jsonify({'msg':str(e)})ç
+        return jsonify({'msg':str(e)})
 
 @app.route("/changepassword", methods=["PUT"])
-def putregistr():
+def changepass():
     data = request.form.to_dict()
     passw = data['password']
     id_us = data['id']

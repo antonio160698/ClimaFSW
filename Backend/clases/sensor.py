@@ -4,7 +4,7 @@ import time
 import asyncio
 import random
 import mysql.connector
-from BClima import mydb
+from clases.connection import *
 # Initiate GPIO for pigpio
 
 class dth22sensor:
