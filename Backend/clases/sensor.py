@@ -59,13 +59,11 @@ def asincTemHum():
                     tot_humity = 0
                 except Exception as e:
                     print(str(e))
-                    break
                 finally:
                     cur.close()
                     cnx.close()
             except Exception as e:
                 print(str(e))
-                break
         time.sleep(10)#espera 10 segundos
 
 def getsensoraleatorio(ser):

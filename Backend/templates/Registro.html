@@ -14,10 +14,19 @@
 <script>
     window.onload = () => {
         let listaSensor;
-        $.ajax({
-            url: './api',
-            success: (e) => { console.log(e);listaSensor = e; console.log(listaSensor);resultadoSensores(); }
-        });
+        var request = new XMLHttpRequest();
+            request.onreadystatechange = () => {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        let e = JSON.parse(request.responseText);
+                        console.log(e);listaSensor = e; console.log(listaSensor);resultadoSensores();
+                    } else {
+                        console.log('An error occurred during your request: ' + request.status + ' ' + request.statusText);
+                    }
+                }
+            }
+            request.open('Get', './api');
+            request.send();
         function resultadoSensores() {
             let tabla = "";
             for (let x of listaSensor) {
@@ -29,5 +38,20 @@
             document.getElementById("tablaRegistro").innerHTML = antestabla + tabla;
         }
     }
+
+    $('th').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+})
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
 </script>
 {% endblock%}
